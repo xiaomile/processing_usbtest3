@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.app.Dialog;
 import android.app.AlertDialog;
 import android.widget.Toast;
+import ketai.sensors.*;
 //import android.os.Message;
 
 
@@ -88,7 +89,8 @@ void onActivityResult(int requestCode, int resultCode, Intent data) {
 byte[] val_read  =new byte[1]; 
 byte[] val_write =new byte[1];  
 String read_recv = "";
-
+KetaiSensor sensor;
+float accelerometerX, accelerometerY, accelerometerZ;
 int y=640;
 byte s1;
 int new_time;
@@ -107,18 +109,12 @@ void setup() {
 }
 
 void draw() { 
-  background(80);
-  fill(255);
-  line(360,280,360,1000);
-  fill(255,255,0);
-  ellipse(360,y,50,50);
-  s1=byte((y-280)*100/(1000-280));
-  text(s1,200,y);
-  if(mousePressed){
-    if(abs(mouseX-360)<=50&&abs(mouseY-y)<=50&&mouseY>=280&&mouseY<=1000){
-      y=mouseY;
-    }
-  }
+  background(78, 93, 75);
+  text("Accelerometer: \n" +
+    "x: " + nfp(accelerometerX, 1, 3) + "\n" +
+    "y: " + nfp(accelerometerY, 1, 3) + "\n" +
+    "z: " + nfp(accelerometerZ, 1, 3), 0, 0, width, height);
+  s1=(byte)accelerometerX;
   //text(read_recv+"!",320,1150);
   text("read String:",300,1150);
   String[] t2 = read_recv.split(" ");
@@ -156,6 +152,13 @@ void draw() {
       }
     }
   }
+}
+
+void onAccelerometerEvent(float x, float y, float z)
+{
+  accelerometerX = x;
+  accelerometerY = y;
+  accelerometerZ = z;
 }
 
 private String toHexString(byte[] arg, int length) {
