@@ -138,8 +138,10 @@ int new_time;
 int old_time=0;
 byte old_s=0;
 public void setup() {
-  System.out.print("fullscreen");
+  //System.out.print("fullscreen");
   
+  sensor = new KetaiSensor(this);
+  sensor.start();
   
   ellipseMode(RADIUS);
   textSize(50);
@@ -155,7 +157,7 @@ public void draw() {
     "x: " + nfp(accelerometerX, 1, 3) + "\n" +
     "y: " + nfp(accelerometerY, 1, 3) + "\n" +
     "z: " + nfp(accelerometerZ, 1, 3), 0, 0, width, height);
-  s1=(byte)accelerometerX;
+  s1=(byte)((int)accelerometerX*10);
   //text(read_recv+"!",320,1150);
   text("read String:",300,1150);
   String[] t2 = read_recv.split(" ");
